@@ -32,13 +32,30 @@ async function insertData(TarifaData){
 
 //Populando tabelas do banco a partir do excel disponibilizado
 async function insertHorario(HorarioData){
-
+    console.log("Entrou!");
     HorarioData.forEach(h =>{
 
         var arrayHorario = h.split(';');
-        console.log(arrayHorario);
+        
+        const horario = {
+            COD_LINH : arrayHorario[0],
+            NUM_SUBL : arrayHorario[1],
+            DES_PONT_CTRL : arrayHorario[2],
+            DES_TIPO_DIA: arrayHorario[3],
+            HOR_SAID_VIAG : arrayHorario[4],
+            MIN_SAID_VIAG  : arrayHorario[5],
+            NOM_LINH : arrayHorario[6],
+            NOM_SUBL : arrayHorario[7],
+            DAT_VIGE_ESPF: arrayHorario[8],
+            IND_VEIC_ESPC: arrayHorario[9],
+            TIP_TRAN: arrayHorario[10]
+        }
+
+        Horario.create(horario);
+       
 
     });
+    console.log("Finalizado!");
 };
 
 module.exports = {
@@ -80,7 +97,9 @@ module.exports = {
             insertHorario(HorarioData);
         });
 
-        response = "OK";
-        return response;
+        rl.on('resume', call=>{
+            response = "OK";
+            return response;
+        });        
     },     
 };
