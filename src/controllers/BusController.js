@@ -1,32 +1,44 @@
 
-const Bus = require('../models/Bus');
+const Tarifa = require('../models/Tarifa');
+const Horario = require('../models/Horario');
 
 const fs = require('fs');
 const readline = require('readline');
 
-const readable = fs.createReadStream('excel/tarifa-linha.csv');
+const readableTarifa = fs.createReadStream('excel/tarifa-linha.csv');
+const readableHorario = fs.createReadStream('excel/quadro-horario.csv');
 
-
-async function insertData(busData){
+//Populando tabelas do banco a partir do excel disponibilizado
+async function insertData(TarifaData){
     
-    busData.forEach(b => {
+    TarifaData.forEach(b => {
 
-      var arrayBus = b.split(';');
+      var arrayTarifa = b.split(';');
 
-        const bus = {
-            COD_LINH: arrayBus[0],
-            NUM_EMPR: arrayBus[1],            
-            DES_TIPO_TARI: arrayBus[2],
-            NOM_LINH: arrayBus[3],
-            VAL_TARI: arrayBus[4],
-            DAT_VIGE_PLLH: arrayBus[5],
-            TIP_TRAN: arrayBus[6]
+        const tarifa = {
+            COD_LINH: arrayTarifa[0],
+            NUM_EMPR: arrayTarifa[1],            
+            DES_TIPO_TARI: arrayTarifa[2],
+            NOM_LINH: arrayTarifa[3],
+            VAL_TARI: arrayTarifa[4],
+            DAT_VIGE_PLLH: arrayTarifa[5],
+            TIP_TRAN: arrayTarifa[6]
         }
         
-        Bus.create(bus);
+        Tarifa.create(tarifa);
 
     });
+};
 
+//Populando tabelas do banco a partir do excel disponibilizado
+async function insertHorario(HorarioData){
+
+    HorarioData.forEach(h =>{
+
+        var arrayHorario = h.split(';');
+        console.log(arrayHorario);
+
+    });
 };
 
 module.exports = {
@@ -34,22 +46,41 @@ module.exports = {
 
    async saveBus(request, response){
   
-        const busData = [];
+        const tarifaData = [];
 
         const rl = readline.createInterface({
-            input: readable,
+            input: readableTarifa,
         });
     
         rl.on('line', (line)=>{
-            busData.push(line);
+            tarifaData.push(line);
         });
 
         rl.on('close',cb=>{
-            insertData(busData);
+            insertData(tarifaData);
         });
 
-        response.status = "OK";
+        response = "OK";
         return response;
     },
+
+    async saveHorario(){
+
+        const HorarioData = [];
+
+        const rl = readline.createInterface({
+            input: readableHorario,
+        });
     
+        rl.on('line', (line)=>{
+            HorarioData.push(line);
+        });
+
+        rl.on('close',cb=>{
+            insertHorario(HorarioData);
+        });
+
+        response = "OK";
+        return response;
+    },     
 };
