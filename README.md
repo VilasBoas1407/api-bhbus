@@ -31,6 +31,3 @@ Todos os métodos são do tipo <b>GET</b> retornam dados no formato Json.
 ### BuscarQuadroHorarioByLinha
  > Retorna uma lista com os horários da linha selecionada.
  
-### BuscarQuadroHorario
- > Retorna uma lista com os horários de todas as linhas.<br>
- Atenção, essa consulta pode ser demorada, aproximadamente 60.000 registros.
