@@ -15,11 +15,11 @@ Todos os métodos são do tipo <b>GET</b> retornam dados no formato Json.
  https://api-bhbus.herokuapp.com/bus/BuscarLinhas
 ```
 ### BuscarLinhaByNum
-> Retorna o código da linha, número empresa, tipo tarifa, nome da linha, valor tarifa, data vigente e tipo de transporte.
-<br>
+> Retorna o código da linha, número empresa, tipo tarifa, nome da linha, valor tarifa, data vigente e tipo de transporte.<br>
  ```
  https://api-bhbus.herokuapp.com/bus/BuscarLinhasByNum
 ```
+
 ### BuscarRotaLinhaSemCoordenadas
 > Retorna o código da linha, número empresa, tipo tarifa, nome da linha, valor tarifa, data vigente e tipo de transporte.
 
