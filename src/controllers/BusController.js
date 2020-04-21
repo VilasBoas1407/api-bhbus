@@ -102,4 +102,52 @@ module.exports = {
             return response;
         });        
     },     
+
+    async GetLinhaByNum(request,response){
+
+        const { COD_LINH }  = request.query;
+        const data = {}
+
+        try{
+            if(COD_LINH != ""){
+                const bus =  await Tarifa.findOne({ COD_LINH });
+                
+                console.log(bus);
+     
+                if(bus)
+                     data.bus = bus;
+                 else
+                     data.msg = "Não foi encontrado nenhuma linha de ônibus com esse número " + COD_LINH;
+             }
+             
+             else{
+                 data.msg = "Número de linha inválido!";
+             }
+        }
+        catch(err){
+            data.msg = "Erro: " + err;
+        }
+        
+        return response.json({data});
+    },
+
+    async GetLinhas(request,response){
+       
+        const data = {}
+
+        try{
+            const bus =  await Tarifa.find();
+            if(bus)
+                data.bus = bus;
+            else
+                data.msg = "Não foi encontrado nenhuma linha.";
+
+        }  
+
+        catch(err){
+            data.msg = "Erro:" + err;
+        }
+ 
+        return response.json({data});
+    }
 };
