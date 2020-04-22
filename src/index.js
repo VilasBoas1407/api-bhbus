@@ -14,4 +14,6 @@ mongoose.connect('mongodb+srv://apibh:apibh@cluster0-jxkcj.mongodb.net/OnTimeBus
 app.use(express.json());
 app.use(routes);
 
-app.listen(process.env.port || 3333);
+app.listen(process.env.PORT || 3000, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });
