@@ -2,9 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes');
 
-
-var port = process.env.port || 3333;
-
 const app = express();
 
 //Conexão com banco de dados
@@ -17,4 +14,4 @@ mongoose.connect('mongodb+srv://apibh:apibh@cluster0-jxkcj.mongodb.net/OnTimeBus
 app.use(express.json());
 app.use(routes);
 
-app.listen(port);
+app.listen(process.env.port || 3333);
