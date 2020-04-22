@@ -24,10 +24,13 @@ Todos os métodos são do tipo <b>GET</b> retornam dados no formato Json.
 
 ### BuscarRotaLinhaSemCoordenadas
 > Retorna o código da linha, número empresa, tipo tarifa, nome da linha, valor tarifa, data vigente e tipo de transporte.
-
-### BuscarRotaLinhaComCoordenadas
-> Retorna o código da linha, número empresa, tipo tarifa, nome da linha, valor tarifa, data vigente e tipo de transporte.
-
+  ```
+ https://api-bhbus.herokuapp.com/bus/BuscarRotaLinha?COD_LINHA={numero_linha}
+```
+ 
 ### BuscarQuadroHorarioByLinha
  > Retorna uma lista com os horários da linha selecionada.
+  ```
+ https://api-bhbus.herokuapp.com/bus/BuscarQuadroHorarioByLinha?COD_LINHA={numero_linha}
+```
  
