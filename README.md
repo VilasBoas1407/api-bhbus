@@ -1,7 +1,7 @@
 # api-bhbus
 
 ## Tecnologia
- A Api foi desenvolvida em NodeJs com uma licensa de código livre, quem tiver interesse pode baixar e utilizar.
+ A Api foi desenvolvida em NodeJs com uma licença de código livre, quem tiver interesse pode baixar e utilizar.
  O banco utilizado é o MongoDB.<br>
  A API está hospeda no heroku.<br>
  Link : https://api-bhbus.herokuapp.com/
