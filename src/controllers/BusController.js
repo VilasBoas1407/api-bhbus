@@ -88,6 +88,9 @@ async function insertPonto(PontoData){
     });
 };
 
+async function insertStop(StopData){
+    
+}
 module.exports = {
 
 
