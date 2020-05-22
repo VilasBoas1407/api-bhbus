@@ -9,4 +9,4 @@ const StopSchema = new mongoose.Schema({
     PARENT_STOP : String
 });
 
-module.exports = mongoose.model('Paradas',StopSchema);
+module.exports = mongoose.model('Parada',StopSchema);
