@@ -94,12 +94,16 @@ async function insertParada(ParadaData){
     ParadaData.forEach(function(p){
         var arrayParada = p.split(',');
 
+        const location = {
+            type: 'Point',
+            coordinates: [arrayParada[4].replace(";;",""),arrayParada[3]]
+        }
+        console.log(location)
         const Paradas = {
             ID_STOP : arrayParada[0],
             NOME_STOP: arrayParada[1],
             DESC_STOP: arrayParada[2],
-            LONG_STOP: arrayParada[3],
-            LAT_STOP: arrayParada[4].replace(";;",""),
+            location
         }
       
         Parada.create(Paradas);
@@ -197,7 +201,7 @@ module.exports = {
             return response;
         }); 
 
-        
+
     },
     
     async GetLinhaByNum(request,response){
@@ -295,5 +299,42 @@ module.exports = {
 
     },
 
+    async GetPontosProximos(request,response){
+     
+        const data = {};
+        const { latitude, longitude } = request.query;
+
+        try{
+            const places = await Parada.find(
+                {
+                  location:
+                    { $near :
+                       {
+                         $geometry: { type: "Point",  coordinates: [ latitude,longitude ] },
+                         $minDistance: 0,
+                         $maxDistance: 500
+                       }
+                    }
+                }
+             )
+             if(places){
+                 data.places = places;
+                 data.status = 200;
+             }
+             else{
+                 data.status = 200;
+                 data.msg = "Não encontramos pontos perto da localização fornecida."
+             }
+            
+            return response.json(data);
+        }
+        catch(err){
+            data.msg = "Erro:" + err;
+            data.status = 500;
+            return response.json(data);
+            
+        }
+
+    }
 
 };

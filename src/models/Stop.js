@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
+const PointSchema = require('./utils/PointSchema');
 const StopSchema = new mongoose.Schema({
     ID_STOP : String,
     NOME_STOP : String,
     DESC_STOP : String,
-    LAT_STOP : String, //LATITUDE
-    LONG_STOP: String, //LONGITUDE
-    LOCATION_TYPE : String,
+    location: {
+        type: PointSchema,
+        index: '2dsphere'
+    },
     PARENT_STOP : String
 });
 
