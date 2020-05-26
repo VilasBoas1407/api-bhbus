@@ -2,6 +2,7 @@
 const Tarifa = require('../models/Tarifa');
 const Horario = require('../models/Horario');
 const Ponto = require('../models/Ponto');
+const Parada = require('../models/Stop');
 
 const fs = require('fs');
 const readline = require('readline');
@@ -9,6 +10,7 @@ const readline = require('readline');
 const readableTarifa = fs.createReadStream('excel/tarifa-linha.csv');
 const readableHorario = fs.createReadStream('excel/quadro-horario.csv');
 const readablePonto = fs.createReadStream('excel/ponto-itinerario-sem-coordenadas.csv');
+const readableParada = fs.createReadStream('excel/pontos-coordenadas.csv');
 
 //Populando tabelas do banco a partir do excel disponibilizado
 async function insertData(TarifaData){
@@ -88,9 +90,28 @@ async function insertPonto(PontoData){
     });
 };
 
-async function insertStop(StopData){
-    
-}
+async function insertParada(ParadaData){    
+    ParadaData.forEach(function(p){
+        var arrayParada = p.split(',');
+
+        const location = {
+            type: 'Point',
+            coordinates: [arrayParada[4].replace(";;",""),arrayParada[3]]
+        }
+        console.log(location)
+        const Paradas = {
+            ID_STOP : arrayParada[0],
+            NOME_STOP: arrayParada[1],
+            DESC_STOP: arrayParada[2],
+            location
+        }
+      
+        Parada.create(Paradas);
+    });
+
+    return true;
+};
+
 module.exports = {
 
 
@@ -157,6 +178,31 @@ module.exports = {
             return response;
         });        
     },  
+
+    async saveParada(){
+        const ParadaData = [];
+        var count = 0;
+        const rl = readline.createInterface({
+            input: readableParada,
+        });
+    
+        rl.on('line', (line)=>{
+            console.log("Inserindo: ",count);
+            ParadaData.push(line);
+            count++;
+        });
+
+        rl.on('close',cb=>{
+            insertParada(ParadaData);
+        });
+
+        rl.on('resume', call=>{
+            response = "OK";
+            return response;
+        }); 
+
+
+    },
     
     async GetLinhaByNum(request,response){
 
@@ -253,5 +299,42 @@ module.exports = {
 
     },
 
+    async GetPontosProximos(request,response){
+     
+        const data = {};
+        const { latitude, longitude } = request.query;
+
+        try{
+            const places = await Parada.find(
+                {
+                  location:
+                    { $near :
+                       {
+                         $geometry: { type: "Point",  coordinates: [ latitude,longitude ] },
+                         $minDistance: 0,
+                         $maxDistance: 500
+                       }
+                    }
+                }
+             )
+             if(places){
+                 data.places = places;
+                 data.status = 200;
+             }
+             else{
+                 data.status = 200;
+                 data.msg = "Não encontramos pontos perto da localização fornecida."
+             }
+            
+            return response.json(data);
+        }
+        catch(err){
+            data.msg = "Erro:" + err;
+            data.status = 500;
+            return response.json(data);
+            
+        }
+
+    }
 
 };
