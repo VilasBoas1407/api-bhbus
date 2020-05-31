@@ -36,11 +36,17 @@ module.exports = {
     },
 
     async GetLinhas(request,response){
-       
-        const data = {}
+        let { orderBy } = request.query;
+        console.log(orderBy)
+        if(orderBy =='DESC')
+            orderBy = -1;
+        else
+            orderBy =  0;
 
+        const data = {}
+        console.log(orderBy)
         try{
-            const bus =  await Tarifa.find();
+            const bus =  await Tarifa.find().sort( { COD_LINH: orderBy } );
             if(bus)
                 data.bus = bus;
             else
@@ -52,7 +58,7 @@ module.exports = {
             data.msg = "Erro:" + err;
         }
  
-        return response.json({data});
+        return response.json(data);
     },
 
     async GetHorarioByLinha(request,response){
@@ -75,7 +81,7 @@ module.exports = {
             data.msg = "Erro:"  + err;
         }
 
-        return response.json({data});
+        return response.json(data);
     },    
 
     async GetRotaLinha(request,response){
@@ -98,7 +104,7 @@ module.exports = {
             data.msg = "Erro:"  + err;
         }
 
-        return response.json({data});
+        return response.json(data);
 
     },
 
