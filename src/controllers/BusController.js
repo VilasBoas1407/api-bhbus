@@ -84,6 +84,31 @@ module.exports = {
         return response.json(data);
     },    
 
+    //Busca o horário de várias linhas, recebendo um array de linhas de ônibus
+    async GetHorarioLinhas(request,response){
+        console.log("Chegou");
+
+        try{
+            const { linhas } = request.query;
+            
+            if(linhas){ 
+                const Result = await Horario.find({linhas});
+
+                if(Result)
+                    return response.status(200).send({'data': Result});
+                else
+                    return response.status(200).send({'message': 'Não foi encontrada nenhuma linha!'});
+            }
+            else{
+                return response.status(200).send({'message': 'Não foi encontrada nenhuma linha!'});
+            }
+
+        }
+        catch(err){
+            return response.status(500).send({'erro': 'Ocorreu um erro durante a requisição!' + err});
+        }
+    },
+
     async GetRotaLinha(request,response){
 
         const data ={};

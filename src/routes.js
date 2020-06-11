@@ -12,6 +12,7 @@ routes.post('/bus/InsertParadas',StoredController.saveParada);
 routes.get('/bus/BuscarLinhas', BusController.GetLinhas);
 routes.get('/bus/BuscarLinhasByNum', BusController.GetLinhaByNum);
 routes.get('/bus/BuscarQuadroHorarioByLinha', BusController.GetHorarioByLinha);
+routes.get('/bus/BuscarHorarioLinhas', BusController.GetHorarioLinhas);
 routes.get('/bus/BuscarRotaLinha', BusController.GetRotaLinha);
 routes.get('/bus/GetParadasProximas',BusController.GetPontosProximos);
 
